@@ -99,6 +99,7 @@ class Configuratore(QMainWindow):
         self.descrizione_base_originale_posizione_motore_brushless = None
         self.descrizione_base_originale_posizione_motore_mandrino = None
         self.descrizione_base_originale_flangia_motore_rinviato = None
+        self.posizione_motore_selezionata = None
         self.motore_selezionato = None
         self.velocita_selezionata = None
         self.prodotto_selezionato = None
@@ -110,6 +111,7 @@ class Configuratore(QMainWindow):
         self.aggiornamento_in_corso = False
         self.salta_trasmissione = False
         self.salta_sbloccaggio = False
+        self.salta_evita_selezioni_multiple = False
         self.descrizione = ""
         self.descrizioni_aggiuntive = {}
         self.valore_attuale = ""
@@ -673,13 +675,16 @@ class Configuratore(QMainWindow):
             self.ui.tbCodice.setText(codice_articolo)
 
     def genera_descrizione(self):
-        self.descrizione = f"{self.famiglia_selezionata.descrizione_base}\n{self.posizione_descrizioni(self.famiglia_selezionata.macro_categoria.nome)}"
+        testo_con_spazi = f"{self.famiglia_selezionata.descrizione_base}\n{self.posizione_descrizioni(self.famiglia_selezionata.macro_categoria.nome)}"
 
         for desc in self.prodotto_selezionato.descrizioni(self.descrizione_base_originale_vite):
-            self.descrizione += f"{desc}\n"
+            if desc:
+                testo_con_spazi += f"{desc}\n"
 
         for desc_agg in self.descrizioni_aggiuntive.values():
-            self.descrizione += f"{desc_agg}\n"
+            testo_con_spazi += f"{desc_agg}\n"
+
+        self.descrizione = "\n".join(r.strip() for r in testo_con_spazi.split("\n") if r.strip() and r.strip() != "None")
 
         if hasattr(self.ui, "tbDescrizione"):
             self.ui.tbDescrizione.setPlainText(self.descrizione)
@@ -822,9 +827,15 @@ class Configuratore(QMainWindow):
                 # --------------------------------------------------------------------------------------------------------
                 if op.codice == "corpo_mandrino":
                     self.salta_trasmissione = True
+                    self.salta_evita_selezioni_multiple = True
                     combo_v = getattr(self.ui, f"cbOpzione{v_idx}", None)
                     combo_v.setEnabled(False)
                     self.velocita_selezionata = copy.deepcopy(self.catalogo.velocita.get_velocita(combo_v.currentText()))
+
+                    # elimino la descrizione della posizione motore mandrino, in quanto non è più selezionabile
+                    self.posizione_mandrino_selezionata_originale = self.prodotto_selezionato.famiglia.get_descrizione("posizione_motore_mandrino").descrizione_base
+                    self.descrizione_da_sostituire = self.prodotto_selezionato.famiglia.get_descrizione("posizione_motore_mandrino")
+                    self.descrizione_da_sostituire.descrizione_base = ""
 
                     if not combo_v.currentText() == "xxx":
                         for m in self.prodotto_selezionato.motorizzazioni.values():
@@ -848,12 +859,13 @@ class Configuratore(QMainWindow):
                                 self.salta_sbloccaggio = True
 
                                 if not ck.isChecked():
-                                    ck.setEnabled(False)
-                                    lb.setEnabled(False)
-                                else:
-                                    ck.setChecked(False)
-                                    ck.setEnabled(False)
-                                    lb.setEnabled(False)
+                                    if not ckb:
+                                        ck.setEnabled(False)
+                                        lb.setEnabled(False)
+                                    else:
+                                        ck.setChecked(False)
+                                        ck.setEnabled(False)
+                                        lb.setEnabled(False)
 
             elif op.comportamento == ComportamentoOpzione.DescrizioneEditabile:
                 self.opzione_passata = op.codice
@@ -1033,6 +1045,11 @@ class Configuratore(QMainWindow):
                         if vel_base:
                             self.velocita_selezionata.descrizione = vel_base.descrizione
 
+                            #ripristino la descrizione della posizione motore mandrino
+                            self.descrizione_da_sostituire = self.prodotto_selezionato.famiglia.get_descrizione("posizione_motore_mandrino")
+                            self.descrizione_da_sostituire.descrizione_base = self.posizione_mandrino_selezionata_originale
+                            self.posizione_mandrino_selezionata_originale = None
+                            
                         for i in range(1, self.catalogo.opzioni.numero_opzioni() + 1):
                             ck = getattr(self.ui, f"ck{i}", None)
                             lb = getattr(self.ui, f"opzione{i}", None)
@@ -1062,6 +1079,8 @@ class Configuratore(QMainWindow):
                         self.motore_selezionato = copy.deepcopy(self.catalogo.motori.get_motore(valore_combo))
                         if self.motore_selezionato:
                             self.motore_selezionato.descrizione = self.motore_selezionato.dati_motore()
+
+            self.salta_evita_selezioni_multiple = False 
 
         # -----------------------------------------------------
         # SE INVECE L'OPZIONE SELEZIONATA E' SCORRIMENTO
@@ -1163,6 +1182,9 @@ class Configuratore(QMainWindow):
 
     def evita_selezione_multipla(self, variabile):
 
+        if self.salta_evita_selezioni_multiple == True:
+            return
+
         opzione_selezionata = False
 
         for i in range(1, self.catalogo.opzioni.numero_opzioni() + 1):
@@ -1170,6 +1192,10 @@ class Configuratore(QMainWindow):
             if ck and ck.isVisible():
                 if ck.isChecked():
                     tag_codice = ck.property("tag")
+
+                    if tag_codice == "motore_autofrenante":
+                        continue
+
                     op = self.prodotto_selezionato.opzioni_totali().get(tag_codice)
                     
                     if op and (variabile in op.destinazione):
@@ -1183,6 +1209,10 @@ class Configuratore(QMainWindow):
             
             if ck and ck.isVisible():
                 tag_codice = ck.property("tag")
+
+                if tag_codice == "motore_autofrenante":
+                    continue
+
                 op = self.prodotto_selezionato.opzioni_totali().get(tag_codice)
                 
                 if op and (variabile in op.destinazione):
@@ -1232,6 +1262,7 @@ class Configuratore(QMainWindow):
         self.salta_sbloccaggio = False
         self.motorizzazione_slitte()
         self.disabilita_cb()
+        self.salta_evita_selezioni_multiple = False
 
 #########################################################################################
 # ----------------- GESTIONE LISTINO ----------------------------------------------------
@@ -1365,7 +1396,7 @@ class Configuratore(QMainWindow):
                     ck.setChecked(False)
                     ck.setEnabled(False)
                     lbl.setEnabled(False)
-
+                    
                     for i in range(1, 5):
                         combo = getattr(self.ui, f"cbOpzione{i}", None)
                         if combo and combo.property("tag") == "cbMotore":

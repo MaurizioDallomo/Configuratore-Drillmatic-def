@@ -1,0 +1,6 @@
+pyside6-uic Configuratore/gui/popupUserform.ui -o Configuratore/gui/popupUserform.py
+
+pyinstaller --noconfirm --onefile --windowed -n "Configuratore Drillmatic" --icon="Configuratore/Immagini/logo.ico" --add-data "Configuratore/Immagini;Immagini" Configuratore/main.py
+python -m PyInstaller --noconfirm --onedir --windowed -n "Configuratore Drillmatic" --icon="Configuratore/Immagini/logo.ico" --add-data "Configuratore/Immagini;Immagini" Configuratore/main.py
+
+.venv\Scripts\activate

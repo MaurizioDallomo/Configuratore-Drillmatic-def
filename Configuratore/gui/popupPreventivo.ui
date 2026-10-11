@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>447</width>
+    <height>253</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QComboBox" name="cb_Cliente">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>400</width>
+     <height>41</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cb_anno">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>120</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cb_preventivo">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lb_preventivo">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>170</y>
+     <width>113</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Preventivo</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lb_anno">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>113</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Anno</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lb_cliente">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>113</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cliente</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_ok">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>180</y>
+     <width>71</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_svuota_campi">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>200</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Svuota campi</string>
+   </property>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>cb_Cliente</tabstop>
+  <tabstop>cb_anno</tabstop>
+  <tabstop>cb_preventivo</tabstop>
+  <tabstop>btn_ok</tabstop>
+  <tabstop>btn_svuota_campi</tabstop>
+  <tabstop>lb_cliente</tabstop>
+  <tabstop>lb_anno</tabstop>
+  <tabstop>lb_preventivo</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

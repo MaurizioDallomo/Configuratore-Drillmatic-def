@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PopupReferente</class>
+ <widget class="QDialog" name="PopupReferente">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>675</width>
+    <height>184</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLineEdit" name="tbNome">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>211</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="tbCognome">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>30</y>
+     <width>211</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="tbEmail">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>90</y>
+     <width>211</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="tbRuolo">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>30</y>
+     <width>211</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="tbTelefono">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>211</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="tbCellulare">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>90</y>
+     <width>211</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbNome">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>49</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Nome</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbCognome">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>10</y>
+     <width>71</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cognome</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbRuolo">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>10</y>
+     <width>49</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ruolo</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lb_tel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Telefono fisso</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lb_cell">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>70</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Telefono cellulare</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbEmail">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>70</y>
+     <width>49</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Email</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnOk">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>140</y>
+     <width>75</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Salva</string>
+   </property>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>tbNome</tabstop>
+  <tabstop>tbCognome</tabstop>
+  <tabstop>tbRuolo</tabstop>
+  <tabstop>tbTelefono</tabstop>
+  <tabstop>tbCellulare</tabstop>
+  <tabstop>tbEmail</tabstop>
+  <tabstop>btnOk</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

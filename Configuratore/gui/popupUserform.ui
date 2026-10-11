@@ -1,0 +1,1577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1328</width>
+    <height>946</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>1291</width>
+         <height>900</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>900</height>
+        </size>
+       </property>
+       <widget class="QPushButton" name="btn_agg_referente">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>1210</x>
+          <y>70</y>
+          <width>21</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>+</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_modifica">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>1130</x>
+          <y>420</y>
+          <width>140</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Modifica</string>
+        </property>
+       </widget>
+       <widget class="QFrame" name="frmCliente">
+        <property name="geometry">
+         <rect>
+          <x>820</x>
+          <y>100</y>
+          <width>461</width>
+          <height>311</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::Panel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Raised</enum>
+        </property>
+        <property name="lineWidth">
+         <number>2</number>
+        </property>
+        <widget class="QComboBox" name="cbCategoria">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>160</y>
+           <width>181</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="tbIndirizzo">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>431</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Indirizzo</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="tbCap">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>91</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>CAP</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="tbCitta">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>40</y>
+           <width>281</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Città</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="tbPV">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>400</x>
+           <y>40</y>
+           <width>41</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>PV</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="tbCF">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>431</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Codice Fiscale</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="tbPiva">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>100</y>
+           <width>431</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Partita Iva</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="tbTelefono">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>130</y>
+           <width>211</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Telefono</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="tbEmail">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>230</x>
+           <y>130</y>
+           <width>211</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>E-mail</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="cbPagamento">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>190</y>
+           <width>350</width>
+           <height>25</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbPagamento">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>190</y>
+           <width>70</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Pagamento</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="cbTrasporto">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>250</y>
+           <width>350</width>
+           <height>25</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbTrasporto">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>250</y>
+           <width>70</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Trasporto</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="cbResa">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>220</y>
+           <width>350</width>
+           <height>25</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbResa">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>220</y>
+           <width>70</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Resa</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="tbSconto">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>280</y>
+           <width>71</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbSconto">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>280</y>
+           <width>70</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Sconto</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbCategoria">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>160</y>
+           <width>70</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Categoria</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QLabel" name="lbReferente">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>70</y>
+          <width>70</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Referente</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbCliente">
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>10</y>
+          <width>121</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>CLIENTE</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_genera_preventivo">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>1000</x>
+          <y>670</y>
+          <width>130</width>
+          <height>45</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Salva preventivo</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_listino">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>1150</x>
+          <y>770</y>
+          <width>130</width>
+          <height>45</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Listino</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_sposta_su">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>730</x>
+          <y>720</y>
+          <width>71</width>
+          <height>45</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Sposta su</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_nuovo">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>420</y>
+          <width>140</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Nuovo</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="cbCliente">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>30</y>
+          <width>430</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="editable">
+         <bool>true</bool>
+        </property>
+        <property name="insertPolicy">
+         <enum>QComboBox::InsertPolicy::NoInsert</enum>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_aggiungi_prodotto">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>810</x>
+          <y>670</y>
+          <width>181</width>
+          <height>45</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Aggiungi prodotto configurato</string>
+        </property>
+       </widget>
+       <widget class="QFrame" name="frmConfiguratore">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>40</y>
+          <width>801</width>
+          <height>621</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::Panel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Raised</enum>
+        </property>
+        <property name="lineWidth">
+         <number>2</number>
+        </property>
+        <widget class="QComboBox" name="cbOpzione2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>240</y>
+           <width>150</width>
+           <height>40</height>
+          </rect>
+         </property>
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="cbOpzione1">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>160</y>
+           <width>150</width>
+           <height>40</height>
+          </rect>
+         </property>
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="cbProdotto">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>150</width>
+           <height>40</height>
+          </rect>
+         </property>
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="cbOpzione3">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>320</y>
+           <width>150</width>
+           <height>40</height>
+          </rect>
+         </property>
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="cbOpzione4">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>400</y>
+           <width>150</width>
+           <height>40</height>
+          </rect>
+         </property>
+         <property name="editable">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck1">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>80</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck2">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>105</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck3">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>130</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck4">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>155</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck5">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>180</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck6">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>205</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck7">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>230</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck8">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>255</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck9">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>280</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck10">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>305</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck11">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>330</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck12">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>355</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck13">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>380</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck14">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>405</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QPlainTextEdit" name="tbDescrizione">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>170</x>
+           <y>90</y>
+           <width>361</width>
+           <height>471</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck15">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>430</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbProdotto">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>201</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Prodotto</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbOpzione1">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>130</y>
+           <width>140</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbOpzione2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>210</y>
+           <width>140</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbOpzione3">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>290</y>
+           <width>140</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbOpzione4">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>370</y>
+           <width>140</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione1">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>90</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione2">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>115</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione3">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>140</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione4">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>165</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione5">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>190</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione9">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>290</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione7">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>240</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione10">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>315</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione6">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>215</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione8">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>265</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione14">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>415</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione15">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>440</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione13">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>390</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione12">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>365</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione11">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>340</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_opzione_speciale1">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>470</y>
+           <width>150</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Aggiungi opzione speciale</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_opzione_speciale2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>500</y>
+           <width>150</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Aggiungi opzione speciale</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btn_opzione_speciale3">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>530</y>
+           <width>150</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Aggiungi opzione speciale</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="tbCodice">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>170</x>
+           <y>40</y>
+           <width>211</width>
+           <height>41</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="tbPrezzo">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>380</x>
+           <y>570</y>
+           <width>211</width>
+           <height>41</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione16">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>465</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck16">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>455</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck17">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>480</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione17">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>490</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="opzione18">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>515</y>
+           <width>201</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="ck18">
+         <property name="geometry">
+          <rect>
+           <x>540</x>
+           <y>505</y>
+           <width>28</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QPushButton" name="btn_salva">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>980</x>
+          <y>420</y>
+          <width>140</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Salva</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_carica_preventivo">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>1000</x>
+          <y>720</y>
+          <width>130</width>
+          <height>45</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Carica preventivo</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_aggiungi_accessorio">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>810</x>
+          <y>720</y>
+          <width>181</width>
+          <height>45</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Aggiungi accessorio</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_elim_referente">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>1230</x>
+          <y>70</y>
+          <width>21</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>-</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="cbReferente">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>910</x>
+          <y>70</y>
+          <width>291</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_aggiungi_testo">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>810</x>
+          <y>770</y>
+          <width>181</width>
+          <height>45</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Aggiungi testo</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_elimina_riga">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>730</x>
+          <y>770</y>
+          <width>71</width>
+          <height>45</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Elimina</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_elimina_preventivo">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>1000</x>
+          <y>770</y>
+          <width>130</width>
+          <height>45</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Elimina preventivo</string>
+        </property>
+       </widget>
+       <widget class="QFrame" name="frmCondizioni">
+        <property name="geometry">
+         <rect>
+          <x>820</x>
+          <y>500</y>
+          <width>461</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::Panel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Raised</enum>
+        </property>
+        <property name="lineWidth">
+         <number>2</number>
+        </property>
+        <widget class="QComboBox" name="cbImballo">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>80</y>
+           <width>350</width>
+           <height>25</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbConsegna">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>50</y>
+           <width>70</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Consegna</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbImballo">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>80</y>
+           <width>70</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Imballo</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbValidita">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>110</y>
+           <width>70</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Validità</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbCondizioni">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>201</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>CONDIZIONI DI VENDITA</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::TextFormat::AutoText</enum>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="tbConsegna">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>50</y>
+           <width>351</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="tbValidita">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>110</y>
+           <width>351</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QPushButton" name="btn_sposta_giu">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>730</x>
+          <y>670</y>
+          <width>71</width>
+          <height>45</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Sposta giù</string>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="tb_righe">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>670</y>
+          <width>711</width>
+          <height>141</height>
+         </rect>
+        </property>
+        <property name="showGrid">
+         <bool>true</bool>
+        </property>
+        <property name="gridStyle">
+         <enum>Qt::PenStyle::SolidLine</enum>
+        </property>
+        <property name="columnCount">
+         <number>6</number>
+        </property>
+        <column>
+         <property name="text">
+          <string>#</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Q.tà</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Articolo</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Prezzo</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Sconto</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Descrizione</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QLabel" name="lb_preventivo">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>441</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1328</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <tabstops>
+  <tabstop>cbProdotto</tabstop>
+  <tabstop>cbOpzione1</tabstop>
+  <tabstop>cbOpzione2</tabstop>
+  <tabstop>cbOpzione3</tabstop>
+  <tabstop>cbOpzione4</tabstop>
+  <tabstop>cbCliente</tabstop>
+  <tabstop>cbReferente</tabstop>
+  <tabstop>btn_agg_referente</tabstop>
+  <tabstop>btn_elim_referente</tabstop>
+  <tabstop>tbIndirizzo</tabstop>
+  <tabstop>tbCap</tabstop>
+  <tabstop>tbCitta</tabstop>
+  <tabstop>tbPV</tabstop>
+  <tabstop>tbCF</tabstop>
+  <tabstop>tbPiva</tabstop>
+  <tabstop>tbTelefono</tabstop>
+  <tabstop>tbEmail</tabstop>
+  <tabstop>cbCategoria</tabstop>
+  <tabstop>cbPagamento</tabstop>
+  <tabstop>cbResa</tabstop>
+  <tabstop>cbTrasporto</tabstop>
+  <tabstop>tbSconto</tabstop>
+  <tabstop>btn_nuovo</tabstop>
+  <tabstop>btn_salva</tabstop>
+  <tabstop>btn_modifica</tabstop>
+  <tabstop>tbConsegna</tabstop>
+  <tabstop>cbImballo</tabstop>
+  <tabstop>tbValidita</tabstop>
+  <tabstop>btn_sposta_giu</tabstop>
+  <tabstop>btn_sposta_su</tabstop>
+  <tabstop>btn_elimina_riga</tabstop>
+  <tabstop>btn_aggiungi_prodotto</tabstop>
+  <tabstop>btn_aggiungi_accessorio</tabstop>
+  <tabstop>btn_aggiungi_testo</tabstop>
+  <tabstop>btn_genera_preventivo</tabstop>
+  <tabstop>btn_carica_preventivo</tabstop>
+  <tabstop>btn_elimina_preventivo</tabstop>
+  <tabstop>tb_righe</tabstop>
+  <tabstop>tbCodice</tabstop>
+  <tabstop>tbDescrizione</tabstop>
+  <tabstop>ck1</tabstop>
+  <tabstop>ck2</tabstop>
+  <tabstop>ck3</tabstop>
+  <tabstop>ck4</tabstop>
+  <tabstop>ck5</tabstop>
+  <tabstop>ck6</tabstop>
+  <tabstop>ck7</tabstop>
+  <tabstop>ck8</tabstop>
+  <tabstop>ck9</tabstop>
+  <tabstop>ck10</tabstop>
+  <tabstop>ck11</tabstop>
+  <tabstop>ck12</tabstop>
+  <tabstop>ck13</tabstop>
+  <tabstop>ck14</tabstop>
+  <tabstop>ck15</tabstop>
+  <tabstop>btn_opzione_speciale1</tabstop>
+  <tabstop>btn_opzione_speciale2</tabstop>
+  <tabstop>btn_opzione_speciale3</tabstop>
+  <tabstop>tbPrezzo</tabstop>
+  <tabstop>btn_listino</tabstop>
+  <tabstop>scrollArea</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

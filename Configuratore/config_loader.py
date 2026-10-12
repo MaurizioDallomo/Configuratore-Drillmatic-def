@@ -3,13 +3,14 @@ import sys
 import configparser
 
 def risorsa_percorso(relative_path):
-    """ Ottiene il percorso del config.ini partendo sempre dalla cartella radice del progetto """
-    try:
-        base_path = sys._MEIPASS 
-    except Exception:
-        # Trova la cartella principale 'Configuratore' risalendo dal file corrente
-        attuale = os.path.dirname(os.path.abspath(__file__))
-        base_path = attuale
+    """ Ottiene il percorso del config.ini all'esterno dell'exe di PyInstaller """
+    # Se il programma è compilato con PyInstaller, sys.executable ci dà il percorso dell'exe
+    if hasattr(sys, '_MEIPASS'):
+        # Prende la cartella in cui si trova fisicamente il file .exe lanciato
+        base_path = os.path.dirname(sys.executable)
+    else:
+        # Se siamo in sviluppo (main.py), usa la cartella corrente
+        base_path = os.path.dirname(os.path.abspath(__file__))
 
     return os.path.join(base_path, relative_path)
 

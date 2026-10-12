@@ -19,6 +19,7 @@ D_HOST = None
 D_NAME = None
 D_USER = None
 D_PASS = None
+D_DRIVER = None
 
 percorso_config = risorsa_percorso("config.ini")
 config = configparser.ConfigParser()
@@ -30,6 +31,7 @@ if os.path.exists(percorso_config):
         D_NAME = config["DATABASE"]["nome_db"]
         D_USER = config["DATABASE"]["utente"]
         D_PASS = config["DATABASE"]["password"]
+        D_DRIVER = config["DATABASE"].get("driver", "ODBC Driver 18 for SQL Server")
     except KeyError as e:
         print(f"Errore: Manca la chiave {e} nel file config.ini!")
         sys.exit(1)
@@ -38,11 +40,13 @@ else:
     sys.exit(1)
 
 # Stringa di configurazione globale
+certificato = "TrustServerCertificate=yes;" if "18" in D_DRIVER else ""
+
 DB_CONFIG = (
-    "Driver={ODBC Driver 18 for SQL Server};"
+    f"Driver={{{D_DRIVER}}};"
     f"Server={D_HOST};"
     f"Database={D_NAME};"
     f"UID={D_USER};"
     f"PWD={D_PASS};"
-    "TrustServerCertificate=yes;"
+    f"{certificato}"
 )

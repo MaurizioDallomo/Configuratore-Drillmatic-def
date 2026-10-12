@@ -114,7 +114,7 @@ class ufOpzione(QDialog):
         try:
             connessione = pyodbc.connect(DB_CONFIG)
 
-            cursore = connesisone.cursor()
+            cursore = connessione.cursor()
 
             if self.modalita_opzione == "NUOVO":
 

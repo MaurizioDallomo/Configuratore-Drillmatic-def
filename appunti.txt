@@ -3,7 +3,7 @@ pyside6-uic Configuratore/gui/popupUserform.ui -o Configuratore/gui/popupUserfor
 pyinstaller --noconfirm --onefile --windowed -n "Configuratore Drillmatic" --icon="Configuratore/Immagini/logo.ico" --add-data "Configuratore/Immagini;Immagini" Configuratore/main.py
 python -m PyInstaller --noconfirm --onedir --windowed -n "Configuratore Drillmatic" --icon="Configuratore/Immagini/logo.ico" --add-data "Configuratore/Immagini;Immagini" Configuratore/main.py
 
-.venv\Scripts\activate
+.venv\Scripts\activate.ps1
 
 pip freeze > requirements.txt
 pip install -r requirements.txt

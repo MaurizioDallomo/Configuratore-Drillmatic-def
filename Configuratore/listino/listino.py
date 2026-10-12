@@ -20,13 +20,24 @@ def _make_dict_cursor(connection, connection_record):
 try:
     parametri = urllib.parse.quote_plus(DB_CONFIG)
 
+    def connettore_diretto():
+        stringa_aziendale = (
+            "Driver={ODBC Driver 11 for SQL Server};"
+            f"Server={D_HOST};"
+            f"Database={D_NAME};"
+            f"UID={D_USER};"
+            f"PWD={D_PASS};"
+        )
+        return pyodbc.connect(stringa_aziendale)
+
     # Creiamo l'engine standard
     db_pool = create_engine(
-        f"mssql+pyodbc:///?odbc_connect={parametri}",
+        "mssql+pyodbc://",
+        creator=connettore_diretto,
         pool_size=5,                     
         pool_reset_on_return='rollback'  
     )
-    print("Connection Pool per SQL Server avviato con successo!")
+    print("Connection Pool per SQL Server avviato con successo tramite connessione diretta!")
 
 except Exception as err:
     print(f"Impossibile avviare il Connection Pool: {err}")
@@ -127,7 +138,8 @@ class Listino:
                     columns = [column[0] for column in cur.description]
                     return [dict(zip(columns, row)) for row in cur.fetchall()]
                 
-                cursor.execute("SELECT prodotto_codice, corsa_codice, prezzo, consegna FROM configuratore.prezzi_base_unita")
+                # RIPRISTINATA LA QUERY CHE ERA STATA CANCELLATA
+                cursor.execute("SELECT prodotto_codice, corsa_codice, prezzo, consegna FROM dbo.prezzi_base_unita")
                 for row in fetch_as_dict(cursor):
                     p = catalogo.prodotti.get_prodotto(row['prodotto_codice'])
                     if p:
@@ -135,7 +147,7 @@ class Listino:
                         if corsa:
                             self.aggiungi_prezzo_base_unita(p, corsa, float(row['prezzo']), row['consegna'])
 
-                cursor.execute("SELECT prodotto_codice, cuscinetto_codice, taglia, prezzo, consegna FROM configuratore.prezzi_base_mandrini")
+                cursor.execute("SELECT prodotto_codice, cuscinetto_codice, taglia, prezzo, consegna FROM dbo.prezzi_base_mandrini")
                 for row in fetch_as_dict(cursor):
                     p = catalogo.prodotti.get_prodotto(row['prodotto_codice'])
                     if p:
@@ -143,7 +155,7 @@ class Listino:
                         if cuscinetto:
                             self.aggiungi_prezzo_base_mandrino(p, cuscinetto, row['taglia'], float(row['prezzo']), row['consegna'])
 
-                cursor.execute("SELECT prodotto_codice, corsa_codice, prezzo, consegna FROM configuratore.prezzi_base_slitte")
+                cursor.execute("SELECT prodotto_codice, corsa_codice, prezzo, consegna FROM dbo.prezzi_base_slitte")
                 for row in fetch_as_dict(cursor):
                     p = catalogo.prodotti.get_prodotto(row['prodotto_codice'])
                     if p:
@@ -151,7 +163,7 @@ class Listino:
                         if corsa:
                             self.aggiungi_prezzo_base_slitta(p, corsa, float(row['prezzo']), row['consegna'])
 
-                cursor.execute("SELECT prodotto_codice, mandrino_codice, prezzo FROM configuratore.prezzi_mandrini")
+                cursor.execute("SELECT prodotto_codice, mandrino_codice, prezzo FROM dbo.prezzi_mandrini")
                 for row in fetch_as_dict(cursor):
                     p = catalogo.prodotti.get_prodotto(row['prodotto_codice'])
                     if p:
@@ -162,7 +174,7 @@ class Listino:
                         if codice_m in p.mandrini:
                             self.prezzi_mandrini[p.codice][codice_m] = float(row['prezzo'])
 
-                cursor.execute("SELECT prodotto_codice, opzione_codice, prezzo FROM configuratore.prezzi_opzioni")
+                cursor.execute("SELECT prodotto_codice, opzione_codice, prezzo FROM dbo.prezzi_opzioni")
                 for row in fetch_as_dict(cursor):
                     p = catalogo.prodotti.get_prodotto(row['prodotto_codice'])
                     if p:
@@ -173,7 +185,7 @@ class Listino:
                         if codice_op in p.opzioni_totali():
                             self.prezzi_opzioni[p.codice][codice_op] = float(row['prezzo'])
 
-                cursor.execute("SELECT prodotto_codice, opzione_codice FROM configuratore.opzioni_escluse")
+                cursor.execute("SELECT prodotto_codice, opzione_codice FROM dbo.opzioni_escluse")
                 for row in fetch_as_dict(cursor):
                     p = catalogo.prodotti.get_prodotto(row['prodotto_codice'])
                     if p:

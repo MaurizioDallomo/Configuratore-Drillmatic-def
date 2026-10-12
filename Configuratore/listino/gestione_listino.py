@@ -18,12 +18,17 @@ from config_loader import D_HOST, D_NAME, D_USER, D_PASS, DB_CONFIG, risorsa_per
 
 try:
     parametri = urllib.parse.quote_plus(DB_CONFIG)
+    
+    def connettore_diretto():
+        return pyodbc.connect(DB_CONFIG)
 
     db_pool = create_engine(
-        f"mssql+pyodbc:///?odbc_connect={parametri}",
-        pool_size=5,                     # Stessa dimensione di prima
-        pool_reset_on_return='rollback'  # Ripristina la sessione alla chiusura
+        "mssql+pyodbc://",
+        creator=connettore_diretto,
+        pool_size=5,                     
+        pool_reset_on_return='rollback'  
     )
+
 except Exception as err:
     print(f"Impossibile avviare il Connection Pool: {err}")
     db_pool = None
@@ -48,7 +53,7 @@ def cambia_password_utente(username, nuova_password_chiaro):
         
         # 3. Aggiorna sia l'hash che il salt per lo username specificato
         query = """
-            UPDATE configuratore.utenti 
+            UPDATE dbo.utenti 
             SET password_hash = ?, salt = ? 
             WHERE username = ?
         """
@@ -107,7 +112,7 @@ class LoginDialog(QDialog):
             conn = db_pool.raw_connection()
             cursor = conn.cursor()
             
-            query = "SELECT password_hash, salt FROM configuratore.utenti WHERE username = ?"
+            query = "SELECT password_hash, salt FROM dbo.utenti WHERE username = ?"
             cursor.execute(query, (username_inserito,))
             utente = cursor.fetchone()
             
@@ -213,13 +218,13 @@ class ListinoEditorWindow(QMainWindow):
         try:
             with pyodbc.connect(DB_CONFIG) as conn:
                 with conn.cursor() as cursor:
-                    cursor.execute("SELECT DISTINCT prodotto_codice FROM configuratore.prezzi_base_unita")
+                    cursor.execute("SELECT DISTINCT prodotto_codice FROM dbo.prezzi_base_unita")
                     prodotti = fetch_as_dict(cursor)
                     
                     for prod in prodotti:
                         p_cod = prod['prodotto_codice']
                         
-                        cursor.execute("SELECT corsa_codice, prezzo FROM configuratore.prezzi_base_unita WHERE prodotto_codice = ?", (p_cod,))
+                        cursor.execute("SELECT corsa_codice, prezzo FROM dbo.prezzi_base_unita WHERE prodotto_codice = ?", (p_cod,))
                         for corsa_row in fetch_as_dict(cursor):
                             c_cod = corsa_row['corsa_codice']
                             prezzo_base = float(corsa_row['prezzo'])
@@ -228,7 +233,7 @@ class ListinoEditorWindow(QMainWindow):
                             item_macchina = QStandardItem(f"{p_cod}/{c_cod}")
                             item_macchina.setEditable(False)
                             item_macchina.setFont(QFont("Arial", 10, QFont.Weight.Bold))
-                            item_macchina.setData(("configuratore.prezzi_base_unita", p_cod, c_cod), Qt.ItemDataRole.UserRole)
+                            item_macchina.setData(("dbo.prezzi_base_unita", p_cod, c_cod), Qt.ItemDataRole.UserRole)
                             
                             item_prezzo = QStandardItem(f"{prezzo_base:.2f}")
                             item_prezzo.setEditable(True)
@@ -236,7 +241,7 @@ class ListinoEditorWindow(QMainWindow):
                             root.appendRow([item_macchina, item_prezzo])
                             
                             # Sotto-riga: Elenco Mandrini Compatibili
-                            cursor.execute("SELECT mandrino_codice, prezzo FROM configuratore.prezzi_mandrini WHERE prodotto_codice = ?", (p_cod,))
+                            cursor.execute("SELECT mandrino_codice, prezzo FROM dbo.prezzi_mandrini WHERE prodotto_codice = ?", (p_cod,))
                             mandrini = fetch_as_dict(cursor)
                             for m_row in mandrini:
                                 m_cod = m_row['mandrino_codice']
@@ -244,14 +249,14 @@ class ListinoEditorWindow(QMainWindow):
                                 
                                 item_m = QStandardItem(f"  {m_cod} ...... {desc_m}")
                                 item_m.setEditable(False)
-                                item_m.setData(("configuratore.prezzi_mandrini", p_cod, m_cod), Qt.ItemDataRole.UserRole)
+                                item_m.setData(("dbo.prezzi_mandrini", p_cod, m_cod), Qt.ItemDataRole.UserRole)
                                 
                                 item_p_m = QStandardItem(f"{float(m_row['prezzo']):.2f}")
                                 item_p_m.setEditable(True)
                                 item_macchina.appendRow([item_m, item_p_m])
                                 
                             # Separatore di sezione e Sotto-riga: Elenco Opzioni
-                            cursor.execute("SELECT opzione_codice, prezzo FROM configuratore.prezzi_opzioni WHERE prodotto_codice = ?", (p_cod,))
+                            cursor.execute("SELECT opzione_codice, prezzo FROM dbo.prezzi_opzioni WHERE prodotto_codice = ?", (p_cod,))
                             opzioni = fetch_as_dict(cursor)
                             if opzioni:
                                 item_div = QStandardItem("  Opzioni")
@@ -266,7 +271,7 @@ class ListinoEditorWindow(QMainWindow):
                                     
                                     item_op = QStandardItem(f"  {desc_op}")
                                     item_op.setEditable(False)
-                                    item_op.setData(("configuratore.prezzi_opzioni", p_cod, op_cod), Qt.ItemDataRole.UserRole)
+                                    item_op.setData(("dbo.prezzi_opzioni", p_cod, op_cod), Qt.ItemDataRole.UserRole)
                                     
                                     item_p_op = QStandardItem(f"{float(op_row['prezzo']):.2f}")
                                     item_p_op.setEditable(True)
@@ -287,13 +292,13 @@ class ListinoEditorWindow(QMainWindow):
         try:
             with pyodbc.connect(DB_CONFIG) as conn:
                 with conn.cursor() as cursor:
-                    cursor.execute("SELECT DISTINCT prodotto_codice FROM configuratore.prezzi_base_mandrini")
+                    cursor.execute("SELECT DISTINCT prodotto_codice FROM dbo.prezzi_base_mandrini")
                     prodotti = fetch_as_dict(cursor)
 
                     for prod in prodotti:
                         p_cod = prod['prodotto_codice']
                         
-                        cursor.execute("SELECT cuscinetto_codice, taglia, prezzo FROM configuratore.prezzi_base_mandrini WHERE prodotto_codice = ?", (p_cod,))
+                        cursor.execute("SELECT cuscinetto_codice, taglia, prezzo FROM dbo.prezzi_base_mandrini WHERE prodotto_codice = ?", (p_cod,))
                         for base_row in fetch_as_dict(cursor):
                             c_cod = base_row['cuscinetto_codice']
                             taglia = base_row['taglia']
@@ -302,7 +307,7 @@ class ListinoEditorWindow(QMainWindow):
                             item_macchina = QStandardItem(f"Mandrino {p_cod} (Cuscinetto {c_cod} / Gr.{taglia})")
                             item_macchina.setEditable(False)
                             item_macchina.setFont(QFont("Arial", 10, QFont.Weight.Bold))
-                            item_macchina.setData(("configuratore.prezzi_base_mandrini", p_cod, f"{c_cod}|{taglia}"), Qt.ItemDataRole.UserRole)
+                            item_macchina.setData(("dbo.prezzi_base_mandrini", p_cod, f"{c_cod}|{taglia}"), Qt.ItemDataRole.UserRole)
                             
                             item_prezzo = QStandardItem(f"{prezzo_base:.2f}")
                             item_prezzo.setEditable(True)
@@ -310,20 +315,20 @@ class ListinoEditorWindow(QMainWindow):
                             root.appendRow([item_macchina, item_prezzo])
                             
                             # Accessori/Componenti interni del mandrino
-                            cursor.execute("SELECT mandrino_codice, prezzo FROM configuratore.prezzi_mandrini WHERE prodotto_codice = ?", (p_cod,))
+                            cursor.execute("SELECT mandrino_codice, prezzo FROM dbo.prezzi_mandrini WHERE prodotto_codice = ?", (p_cod,))
                             for m_row in fetch_as_dict(cursor):
                                 m_cod = m_row['mandrino_codice']
                                 desc_m = self.ottieni_descrizione_mandrino(m_cod)
                                 item_m = QStandardItem(f"  {m_cod} ...... {desc_m}")
                                 item_m.setEditable(False)
-                                item_m.setData(("configuratore.prezzi_mandrini", p_cod, m_cod), Qt.ItemDataRole.UserRole)
+                                item_m.setData(("dbo.prezzi_mandrini", p_cod, m_cod), Qt.ItemDataRole.UserRole)
                                 
                                 item_p_m = QStandardItem(f"{float(m_row['prezzo']):.2f}")
                                 item_p_m.setEditable(True)
                                 item_macchina.appendRow([item_m, item_p_m])
                             
                             # Opzioni del mandrino
-                            cursor.execute("SELECT opzione_codice, prezzo FROM configuratore.prezzi_opzioni WHERE prodotto_codice = ?", (p_cod,))
+                            cursor.execute("SELECT opzione_codice, prezzo FROM dbo.prezzi_opzioni WHERE prodotto_codice = ?", (p_cod,))
                             opzioni = fetch_as_dict(cursor)
                             if opzioni:
                                 item_div = QStandardItem("  Opzioni")
@@ -336,7 +341,7 @@ class ListinoEditorWindow(QMainWindow):
                                     desc_op = self.ottieni_descrizione_opzione(op_cod)
                                     item_op = QStandardItem(f"  {desc_op}")
                                     item_op.setEditable(False)
-                                    item_op.setData(("configuratore.prezzi_opzioni", p_cod, op_cod), Qt.ItemDataRole.UserRole)
+                                    item_op.setData(("dbo.prezzi_opzioni", p_cod, op_cod), Qt.ItemDataRole.UserRole)
                                     
                                     item_p_op = QStandardItem(f"{float(op_row['prezzo']):.2f}")
                                     item_p_op.setEditable(True)
@@ -358,11 +363,11 @@ class ListinoEditorWindow(QMainWindow):
         try:
             with pyodbc.connect(DB_CONFIG) as conn:
                 with conn.cursor() as cursor:
-                    cursor.execute("SELECT DISTINCT prodotto_codice FROM configuratore.prezzi_base_slitte")
+                    cursor.execute("SELECT DISTINCT prodotto_codice FROM dbo.prezzi_base_slitte")
                     prodotti = fetch_as_dict(cursor)
                     for prod in prodotti:
                         p_cod = prod['prodotto_codice']
-                        cursor.execute("SELECT corsa_codice, prezzo FROM configuratore.prezzi_base_slitte WHERE prodotto_codice = ?", (p_cod,))
+                        cursor.execute("SELECT corsa_codice, prezzo FROM dbo.prezzi_base_slitte WHERE prodotto_codice = ?", (p_cod,))
                         for corsa_row in fetch_as_dict(cursor):
                             c_cod = corsa_row['corsa_codice']
                             prezzo_base = float(corsa_row['prezzo'])
@@ -370,7 +375,7 @@ class ListinoEditorWindow(QMainWindow):
                             item_macchina = QStandardItem(f"{p_cod}/{c_cod}")
                             item_macchina.setEditable(False)
                             item_macchina.setFont(QFont("Arial", 10, QFont.Weight.Bold))
-                            item_macchina.setData(("configuratore.prezzi_base_slitte", p_cod, c_cod), Qt.ItemDataRole.UserRole)
+                            item_macchina.setData(("dbo.prezzi_base_slitte", p_cod, c_cod), Qt.ItemDataRole.UserRole)
                             
                             item_prezzo = QStandardItem(f"{prezzo_base:.2f}")
                             item_prezzo.setEditable(True)
@@ -378,7 +383,7 @@ class ListinoEditorWindow(QMainWindow):
                             root.appendRow([item_macchina, item_prezzo])
                             
                             # Opzioni specifiche della slitta
-                            cursor.execute("SELECT opzione_codice, prezzo FROM configuratore.prezzi_opzioni WHERE prodotto_codice = ?", (p_cod,))
+                            cursor.execute("SELECT opzione_codice, prezzo FROM dbo.prezzi_opzioni WHERE prodotto_codice = ?", (p_cod,))
                             opzioni = fetch_as_dict(cursor)
                             if opzioni:
                                 item_div = QStandardItem("  Opzioni")
@@ -391,7 +396,7 @@ class ListinoEditorWindow(QMainWindow):
                                     desc_op = self.ottieni_descrizione_opzione(op_cod)
                                     item_op = QStandardItem(f"  {desc_op}")
                                     item_op.setEditable(False)
-                                    item_op.setData(("configuratore.prezzi_opzioni", p_cod, op_cod), Qt.ItemDataRole.UserRole)
+                                    item_op.setData(("dbo.prezzi_opzioni", p_cod, op_cod), Qt.ItemDataRole.UserRole)
                                     
                                     item_p_op = QStandardItem(f"{float(op_row['prezzo']):.2f}")
                                     item_p_op.setEditable(True)
@@ -439,21 +444,21 @@ class ListinoEditorWindow(QMainWindow):
                     for meta, nuovo_prezzo in self.modifiche_in_sospeso.items():
                         tabella, prod_cod, comp_cod = meta
                         
-                        if tabella == "configuratore.prezzi_base_unita":
-                            cursor.execute("""UPDATE configuratore.prezzi_base_unita SET prezzo = ? 
+                        if tabella == "dbo.prezzi_base_unita":
+                            cursor.execute("""UPDATE dbo.prezzi_base_unita SET prezzo = ? 
                                             WHERE prodotto_codice = ? AND corsa_codice = ?""", (nuovo_prezzo, prod_cod, comp_cod))
-                        elif tabella == "configuratore.prezzi_base_slitte":
-                            cursor.execute("""UPDATE configuratore.prezzi_base_slitte SET prezzo = ? 
+                        elif tabella == "dbo.prezzi_base_slitte":
+                            cursor.execute("""UPDATE dbo.prezzi_base_slitte SET prezzo = ? 
                                             WHERE prodotto_codice = ? AND corsa_codice = ?""", (nuovo_prezzo, prod_cod, comp_cod))
-                        elif tabella == "configuratore.prezzi_opzioni":
-                            cursor.execute("""UPDATE configuratore.prezzi_opzioni SET prezzo = ? 
+                        elif tabella == "dbo.prezzi_opzioni":
+                            cursor.execute("""UPDATE dbo.prezzi_opzioni SET prezzo = ? 
                                             WHERE prodotto_codice = ? AND opzione_codice = ?""", (nuovo_prezzo, prod_cod, comp_cod))
-                        elif tabella == "configuratore.prezzi_mandrini":
-                            cursor.execute("""UPDATE configuratore.prezzi_mandrini SET prezzo = ? 
+                        elif tabella == "dbo.prezzi_mandrini":
+                            cursor.execute("""UPDATE dbo.prezzi_mandrini SET prezzo = ? 
                                             WHERE prodotto_codice = ? AND mandrino_codice = ?""", (nuovo_prezzo, prod_cod, comp_cod))
-                        elif tabella == "configuratore.prezzi_base_mandrini":
+                        elif tabella == "dbo.prezzi_base_mandrini":
                             cuscinetto, taglia = comp_cod.split('|')
-                            cursor.execute("""UPDATE configuratore.prezzi_base_mandrini SET prezzo = ? 
+                            cursor.execute("""UPDATE dbo.prezzi_base_mandrini SET prezzo = ? 
                                             WHERE prodotto_codice = ? AND cuscinetto_codice = ? AND taglia = ?""", (nuovo_prezzo, prod_cod, cuscinetto, taglia))
                     conn.commit()
             QMessageBox.information(self, "Successo", f"Salvate con successo {len(self.modifiche_in_sospeso)} voci di listino!")

@@ -129,25 +129,18 @@ class Configuratore(QMainWindow):
 
     def carica_opzioni_combobox(self):
         try:
-            connessione = pyodbc.connect(
-                "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"
-                f"Database={D_NAME};"  # Usiamo la variabile dinamica invece del nome fisso
-                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
-                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
-                "TrustServerCertificate=yes;"
-            )
+            connessione = pyodbc.connect(DB_CONFIG)
 
             cursore = connessione.cursor()
 
-            cursore.execute("SELECT descrizione FROM configuratore.opzioni_pagamento ORDER BY descrizione ASC")
+            cursore.execute("SELECT descrizione FROM dbo.opzioni_pagamento ORDER BY descrizione ASC")
             pagamenti = [riga[0] for riga in cursore.fetchall()]
             
             self.ui.cbPagamento.clear()
             self.ui.cbPagamento.addItems(pagamenti)
             self.ui.cbPagamento.setCurrentIndex(-1) 
 
-            cursore.execute("SELECT nome_corriere FROM configuratore.opzioni_trasporto ORDER BY nome_corriere ASC")
+            cursore.execute("SELECT nome_corriere FROM dbo.opzioni_trasporto ORDER BY nome_corriere ASC")
             trasporti = [riga[0] for riga in cursore.fetchall()]
             
             self.ui.cbTrasporto.clear()
@@ -156,7 +149,7 @@ class Configuratore(QMainWindow):
 
             cliente_corrente = self.ui.cbCliente.currentText()
 
-            cursore.execute("SELECT ragione_sociale FROM configuratore.clienti ORDER BY ragione_sociale ASC")
+            cursore.execute("SELECT ragione_sociale FROM dbo.clienti ORDER BY ragione_sociale ASC")
             clienti = [riga[0] for riga in cursore.fetchall()]
 
             self.ui.cbCliente.clear()
@@ -1476,21 +1469,14 @@ class Configuratore(QMainWindow):
             return
 
         try:
-            connessione = pyodbc.connect(
-                "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"
-                f"Database={D_NAME};"  # Usiamo la variabile dinamica invece del nome fisso
-                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
-                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
-                "TrustServerCertificate=yes;"
-            )
+            connessione = pyodbc.connect(DB_CONFIG)
 
             cursore = connessione.cursor()
 
             if self.modalita_cliente == "NUOVO":
 
                 query_cliente = """
-                    INSERT INTO configuratore.clienti (
+                    INSERT INTO dbo.clienti (
                         ragione_sociale, indirizzo, cap, citta, provincia, partita_iva, codice_fiscale,
                         telefono, email, categoria, pagamento, sconto, corriere, resa_merce
                     ) 
@@ -1518,7 +1504,7 @@ class Configuratore(QMainWindow):
             elif self.modalita_cliente == "MODIFICA":
 
                 query_cliente = """
-                    UPDATE configuratore.clienti
+                    UPDATE dbo.clienti
                     SET indirizzo=?, cap=?, citta=?, provincia=?, partita_iva=?, codice_fiscale=?,telefono=?, email=?,
                     categoria=?, pagamento=?, sconto=?, corriere=?, resa_merce=? WHERE ragione_sociale=?
                     """
@@ -1529,7 +1515,7 @@ class Configuratore(QMainWindow):
                     nuovo_cliente.corriere, nuovo_cliente.resa_merce, nuovo_cliente.ragione_sociale)
 
                 cursore.execute(
-                    "SELECT id FROM configuratore.clienti WHERE ragione_sociale=?",
+                    "SELECT id FROM dbo.clienti WHERE ragione_sociale=?",
                     (nuovo_cliente.ragione_sociale,)
                 )
 
@@ -1541,7 +1527,7 @@ class Configuratore(QMainWindow):
                 cliente_id_generato = risultato[0]
 
                 cursore.execute(
-                    "DELETE FROM configuratore.referenti WHERE cliente_id=?",
+                    "DELETE FROM dbo.referenti WHERE cliente_id=?",
                     (cliente_id_generato,)
                 )
 
@@ -1549,7 +1535,7 @@ class Configuratore(QMainWindow):
 
                 messaggio = "Cliente modificato"
 
-            query_referente = ("INSERT INTO configuratore.referenti (cliente_id, nome, cognome, telefono, cellulare, email, ruolo) VALUES (?, ?, ?, ?, ?, ?, ?)")
+            query_referente = ("INSERT INTO dbo.referenti (cliente_id, nome, cognome, telefono, cellulare, email, ruolo) VALUES (?, ?, ?, ?, ?, ?, ?)")
 
             for ref in self.referenti_temporanei:
                 valori_ref = (cliente_id_generato, ref.nome, ref.cognome, ref.telefono, ref.cellulare, ref.email, ref.ruolo)
@@ -1637,14 +1623,7 @@ class Configuratore(QMainWindow):
             return
 
         try:
-            connessione = pyodbc.connect(
-                "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"
-                f"Database={D_NAME};"  # Usiamo la variabile dinamica invece del nome fisso
-                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
-                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
-                "TrustServerCertificate=yes;"
-            )
+            connessione = pyodbc.connect(DB_CONFIG)
 
             cursore = connessione.cursor()
 
@@ -1664,7 +1643,7 @@ class Configuratore(QMainWindow):
                     sconto,
                     corriere,
                     resa_merce
-                FROM configuratore.clienti
+                FROM dbo.clienti
                 WHERE ragione_sociale = ?
             """, (ragione_sociale,))
 
@@ -1691,7 +1670,7 @@ class Configuratore(QMainWindow):
                 
                 cursore.execute("""
                     SELECT nome, cognome, telefono, cellulare, email, ruolo 
-                    FROM configuratore.referenti 
+                    FROM dbo.referenti 
                     WHERE cliente_id = ?
                 """, (cliente_id,))
                 
@@ -1949,14 +1928,7 @@ class Configuratore(QMainWindow):
 
         connessione = None
         try:
-            connessione = pyodbc.connect(
-                "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"
-                f"Database={D_NAME};"  # Usiamo la variabile dinamica invece del nome fisso
-                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
-                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
-                "TrustServerCertificate=yes;"  # Fondamentale per evitare il blocco SSL locale
-            )
+            connessione = pyodbc.connect(DB_CONFIG)
 
             cursore = connessione.cursor()
             connessione.autocommit = False
@@ -1968,7 +1940,7 @@ class Configuratore(QMainWindow):
                 # Recupero il massimo numero di revisione per il codice base del preventivo
                 cursore.execute("""
                 SELECT COALESCE(MAX(CAST(SUBSTRING(numero_preventivo, CHARINDEX('-REV', numero_preventivo) + 4, LEN(numero_preventivo)) AS INT)), 0) 
-                FROM configuratore.preventivi 
+                FROM dbo.preventivi 
                 WHERE numero_preventivo LIKE ?
                 """, (f"{codice_base}-REV%",))
 
@@ -1987,7 +1959,7 @@ class Configuratore(QMainWindow):
 
                 cursore.execute("""
                     SELECT COALESCE(MAX(CAST(SUBSTRING(numero_preventivo, CHARINDEX('-', numero_preventivo) + 1, LEN(numero_preventivo)) AS INT)), 0) 
-                    FROM configuratore.preventivi 
+                    FROM dbo.preventivi 
                     WHERE anno_preventivo = ? AND numero_preventivo NOT LIKE '%-REV%'
                 """, (anno_corrente,))
 
@@ -2007,7 +1979,7 @@ class Configuratore(QMainWindow):
             cursore = connessione.cursor()
 
             query_testata = """
-                INSERT INTO configuratore.preventivi (
+                INSERT INTO dbo.preventivi (
                     numero_preventivo, anno_preventivo, cliente_id, data_creazione, consegna, imballo, validita
                 ) 
                 OUTPUT INSERTED.id_preventivo
@@ -2046,7 +2018,7 @@ class Configuratore(QMainWindow):
 
                 self.nuovo_preventivo.aggiungi_riga_preventivo(riga_oggetto)
 
-                query_dettagli = "INSERT INTO configuratore.preventivi_dettaglio (preventivo_id, numero_riga, quantita, codice, prezzo, sconto, descrizione_personalizzata) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                query_dettagli = "INSERT INTO dbo.preventivi_dettaglio (preventivo_id, numero_riga, quantita, codice, prezzo, sconto, descrizione_personalizzata) VALUES (?, ?, ?, ?, ?, ?, ?)"
                 valori_dettagli = (self.id_preventivo_generato, riga_oggetto.numero_riga, riga_oggetto.qta, riga_oggetto.codice, riga_oggetto.prezzo, riga_oggetto.sconto, riga_oggetto.descrizione)
 
                 cursore.execute(query_dettagli, valori_dettagli)
@@ -2330,14 +2302,7 @@ class Configuratore(QMainWindow):
 
     def ricostruisci_interfaccia_preventivo(self, id_preventivo):
         try:
-            connessione = pyodbc.connect(
-                "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"
-                f"Database={D_NAME};"  # Usiamo la variabile dinamica invece del nome fisso
-                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
-                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
-                "TrustServerCertificate=yes;"
-            )
+            connessione = pyodbc.connect(DB_CONFIG)
 
             cursore = connessione.cursor()
 
@@ -2348,8 +2313,8 @@ class Configuratore(QMainWindow):
             
             query_testata = """
                 SELECT p.*, c.ragione_sociale 
-                FROM configuratore.preventivi p
-                JOIN configuratore.clienti c ON p.cliente_id = c.id
+                FROM dbo.preventivi p
+                JOIN dbo.clienti c ON p.cliente_id = c.id
                 WHERE p.id_preventivo = ?
             """
             cursore.execute(query_testata, (id_preventivo,))
@@ -2380,7 +2345,7 @@ class Configuratore(QMainWindow):
             self.ui.tbValidita.setText(testata['validita'] or "")
 
             query_dettagli = """
-                SELECT * FROM configuratore.preventivi_dettaglio 
+                SELECT * FROM dbo.preventivi_dettaglio 
                 WHERE preventivo_id = ? 
                 ORDER BY numero_riga ASC
             """
@@ -2493,28 +2458,22 @@ class Configuratore(QMainWindow):
             self.ui.btn_modifica.setEnabled(False)
             self.ui.btn_agg_referente.setEnabled(False)
             self.ui.btn_elim_referente.setEnabled(False)
-            selfui.btn_elimina_preventivo.setEnabled(False)
+            self.ui.btn_elimina_preventivo.setEnabled(False)
 
     def esegui_eliminazione_preventivo_db(self, id_preventivo, codice_preventivo):
         connessione = None
         try:
-            connessione = pyodbc.connect(
-                "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"
-                f"Database={D_NAME};"  # Usiamo la variabile dinamica invece del nome fisso
-                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
-                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
-                "TrustServerCertificate=yes;"
-            )
+            connessione = pyodbc.connect(DB_CONFIG)
+
             cursore = connessione.cursor()
             connessione.autocommit = False
 
             #  1. CANCELLIAMO PRIMA I DETTAGLI (Evita errori di vincolo Foreign Key)
-            query_dettagli = "DELETE FROM configuratore.preventivi_dettaglio WHERE preventivo_id = ?"
+            query_dettagli = "DELETE FROM dbo.preventivi_dettaglio WHERE preventivo_id = ?"
             cursore.execute(query_dettagli, (id_preventivo,))
 
             #  2. CANCELLIAMO LA TESTATA DEL PREVENTIVO
-            query_eliminazione = "DELETE FROM configuratore.preventivi WHERE id_preventivo = ?"
+            query_eliminazione = "DELETE FROM dbo.preventivi WHERE id_preventivo = ?"
             cursore.execute(query_eliminazione, (id_preventivo,))
             
             connessione.commit()

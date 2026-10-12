@@ -24,18 +24,11 @@ class ufOpzione(QDialog):
         self.nuova_opzione = None
 
         try:
-            connessione = pyodbc.connect(
-                "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"
-                f"Database={D_NAME};"  # Ora è dinamico dal file ini
-                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
-                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
-                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
-            )
+            connessione = pyodbc.connect(DB_CONFIG)
 
             cursore = connessione.cursor()
 
-            cursore.execute("SELECT codice FROM configuratore.opzioni ORDER BY codice ASC")
+            cursore.execute("SELECT codice FROM dbo.opzioni ORDER BY codice ASC")
             opzioni = [riga[0] for riga in cursore.fetchall()]
 
             self.ui.cb_opzioni_speciali.clear()
@@ -77,19 +70,12 @@ class ufOpzione(QDialog):
         if indice_selezionato >= 0:
             self.ui.cb_opzioni_speciali.removeItem(indice_selezionato)
         try:
-            connessione = pyodbc.connect(
-                "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"
-                f"Database={D_NAME};"  # Ora è dinamico dal file ini
-                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
-                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
-                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
-            )
+            connessione = pyodbc.connect(DB_CONFIG)
 
             cursore = connessione.cursor()
 
             if not codice_da_eliminare != "":
-                cursore.execute("DELETE FROM configuratore.opzioni WHERE codice = ?", (codice_da_eliminare,))
+                cursore.execute("DELETE FROM dbo.opzioni WHERE codice = ?", (codice_da_eliminare,))
                 connessione.commit() 
 
             cursore.close()
@@ -126,20 +112,13 @@ class ufOpzione(QDialog):
             return
 
         try:
-            connessione = pyodbc.connect(
-                "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"
-                f"Database={D_NAME};"  # Ora è dinamico dal file ini
-                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
-                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
-                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
-            )
+            connessione = pyodbc.connect(DB_CONFIG)
 
             cursore = connesisone.cursor()
 
             if self.modalita_opzione == "NUOVO":
 
-                query_opzione = "INSERT INTO configuratore.opzioni (codice, descrizione, prezzo," \
+                query_opzione = "INSERT INTO dbo.opzioni (codice, descrizione, prezzo," \
                     "consegna, data, autore, note) VALUES (?,?,?,?,?,?,?)"
 
                 valori_opzione = (self.nuova_opzione.codice, self.nuova_opzione.descrizione, self.nuova_opzione.prezzo,
@@ -150,7 +129,7 @@ class ufOpzione(QDialog):
             elif self.modalita_opzione == "MODIFICA":
 
                 query_opzione = """
-                    UPDATE configuratore.opzioni
+                    UPDATE dbo.opzioni
                     SET descrizione=?, prezzo=?, consegna=?, data=?, autore=?, note=? WHERE codice=?                
                     """    
                 valori_opzione = (self.nuova_opzione.descrizione, self.nuova_opzione.prezzo,
@@ -209,14 +188,7 @@ class ufOpzione(QDialog):
             return
 
         try:
-            connessione = pyodbc.connect(
-                "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"
-                f"Database={D_NAME};"  # Ora è dinamico dal file ini
-                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
-                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
-                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
-            )
+            connessione = pyodbc.connect(DB_CONFIG)
 
             cursore = connessione.cursor()
 
@@ -228,7 +200,7 @@ class ufOpzione(QDialog):
                     data,
                     autore,
                     note
-                    FROM configuratore.opzioni
+                    FROM dbo.opzioni
                 WHERE codice = ?
             """, (codice,))
             

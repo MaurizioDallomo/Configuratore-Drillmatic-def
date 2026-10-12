@@ -31,16 +31,10 @@ class UfPreventivo(QDialog):
         self.ui.cb_anno.clear()
 
         try:
-            connessione = pyodbc.connect(
-                "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"
-                f"Database={D_NAME};"  # Ora è dinamico dal file ini
-                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
-                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
-                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
-            )
+            connessione = pyodbc.connect(DB_CONFIG)
+
             cursore = connessione.cursor()
-            cursore.execute("SELECT id, ragione_sociale FROM configuratore.clienti ORDER BY ragione_sociale ASC")
+            cursore.execute("SELECT id, ragione_sociale FROM dbo.clienti ORDER BY ragione_sociale ASC")
             clienti_db = cursore.fetchall()
 
             for riga in clienti_db:
@@ -61,19 +55,12 @@ class UfPreventivo(QDialog):
         id_cliente_selezionato = self.ui.cb_Cliente.currentData()
 
         try:
-            connessione = pyodbc.connect(
-                "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"
-                f"Database={D_NAME};"  # Ora è dinamico dal file ini
-                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
-                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
-                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
-            )
+            connessione = pyodbc.connect(DB_CONFIG)
 
             cursore = connessione.cursor()
             cursore.execute("""
                 SELECT DISTINCT anno_preventivo 
-                FROM configuratore.preventivi 
+                FROM dbo.preventivi 
                 WHERE cliente_id = ? 
                 ORDER BY anno_preventivo DESC
             """, (id_cliente_selezionato,))
@@ -104,19 +91,12 @@ class UfPreventivo(QDialog):
             return
 
         try:
-            connessione = pyodbc.connect(
-                "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"
-                f"Database={D_NAME};"  # Ora è dinamico dal file ini
-                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
-                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
-                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
-            )
+            connessione = pyodbc.connect(DB_CONFIG)
 
             cursore = connessione.cursor()
             cursore.execute("""
                 SELECT id_preventivo, numero_preventivo 
-                FROM configuratore.preventivi 
+                FROM dbo.preventivi 
                 WHERE cliente_id = ? AND anno_preventivo = ? 
                 ORDER BY id_preventivo DESC
             """, (id_cliente_selezionato, int(anno_selezionato)))

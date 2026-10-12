@@ -117,8 +117,8 @@ class LoginDialog(QDialog):
             utente = cursor.fetchone()
             
             if utente:
-                db_hash = utente['password_hash']
-                db_salt = utente['salt']
+                db_hash = utente[0] 
+                db_salt = utente[1]
                 
                 hash_oggetto = hashlib.sha256((password_inserita + db_salt).encode('utf-8'))
                 hash_calcolato = hash_oggetto.hexdigest()

@@ -28,29 +28,8 @@ from datetime import datetime, date
 from listino.gestione_listino import LoginDialog, ListinoEditorWindow
 import configparser
 import sys
+from config_loader import D_HOST, D_NAME, D_USER, D_PASS, DB_CONFIG, risorsa_percorso
 
-def risorsa_percorso(percorso_relativo):
-    """ Ottiene il percorso assoluto della risorsa, funziona sia in sviluppo che dopo PyInstaller """
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        cartella_corrente = os.path.dirname(os.path.abspath(__file__))
-
-        if os.path.basename(cartella_corrente).lower() == "gui":
-            base_path = os.path.dirname(cartella_corrente)  # Torna su a 'Configuratore'
-        else:
-            base_path = cartella_corrente
-
-    return os.path.join(base_path, percorso_relativo)
-
-percorso_config = risorsa_percorso("config.ini")
-config = configparser.ConfigParser()
-if os.path.exists(percorso_config):
-    config.read(percorso_config)
-    D_HOST = config["DATABASE"].get("host", "localhost")
-else:
-    D_HOST = "localhost"
-    
 def disegna_grafica_preventivo(canvas, doc):
     canvas.saveState()
 
@@ -153,10 +132,12 @@ class Configuratore(QMainWindow):
             connessione = pyodbc.connect(
                 "Driver={ODBC Driver 18 for SQL Server};"
                 f"Server={D_HOST};"
-                "Database=configuratore;"
-                "Trusted_Connection=yes;"
+                f"Database={D_NAME};"  # Usiamo la variabile dinamica invece del nome fisso
+                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
+                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
                 "TrustServerCertificate=yes;"
             )
+
             cursore = connessione.cursor()
 
             cursore.execute("SELECT descrizione FROM configuratore.opzioni_pagamento ORDER BY descrizione ASC")
@@ -1498,10 +1479,12 @@ class Configuratore(QMainWindow):
             connessione = pyodbc.connect(
                 "Driver={ODBC Driver 18 for SQL Server};"
                 f"Server={D_HOST};"
-                "Database=configuratore;"
-                "Trusted_Connection=yes;"
-                "TrustServerCertificate=yes;"  # Fondamentale per evitare il blocco SSL locale
+                f"Database={D_NAME};"  # Usiamo la variabile dinamica invece del nome fisso
+                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
+                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
+                "TrustServerCertificate=yes;"
             )
+
             cursore = connessione.cursor()
 
             if self.modalita_cliente == "NUOVO":
@@ -1657,8 +1640,9 @@ class Configuratore(QMainWindow):
             connessione = pyodbc.connect(
                 "Driver={ODBC Driver 18 for SQL Server};"
                 f"Server={D_HOST};"
-                "Database=configuratore;"
-                "Trusted_Connection=yes;"
+                f"Database={D_NAME};"  # Usiamo la variabile dinamica invece del nome fisso
+                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
+                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
                 "TrustServerCertificate=yes;"
             )
 
@@ -1968,10 +1952,12 @@ class Configuratore(QMainWindow):
             connessione = pyodbc.connect(
                 "Driver={ODBC Driver 18 for SQL Server};"
                 f"Server={D_HOST};"
-                "Database=configuratore;"
-                "Trusted_Connection=yes;"
+                f"Database={D_NAME};"  # Usiamo la variabile dinamica invece del nome fisso
+                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
+                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
                 "TrustServerCertificate=yes;"  # Fondamentale per evitare il blocco SSL locale
             )
+
             cursore = connessione.cursor()
             connessione.autocommit = False
 
@@ -2347,10 +2333,12 @@ class Configuratore(QMainWindow):
             connessione = pyodbc.connect(
                 "Driver={ODBC Driver 18 for SQL Server};"
                 f"Server={D_HOST};"
-                "Database=configuratore;"
-                "Trusted_Connection=yes;"
+                f"Database={D_NAME};"  # Usiamo la variabile dinamica invece del nome fisso
+                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
+                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
                 "TrustServerCertificate=yes;"
             )
+
             cursore = connessione.cursor()
 
             # Funzione locale per trasformare le righe di pyodbc in dizionari reali
@@ -2513,8 +2501,9 @@ class Configuratore(QMainWindow):
             connessione = pyodbc.connect(
                 "Driver={ODBC Driver 18 for SQL Server};"
                 f"Server={D_HOST};"
-                "Database=configuratore;"
-                "Trusted_Connection=yes;"
+                f"Database={D_NAME};"  # Usiamo la variabile dinamica invece del nome fisso
+                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
+                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
                 "TrustServerCertificate=yes;"
             )
             cursore = connessione.cursor()

@@ -4,24 +4,8 @@ import pyodbc
 import configparser
 import sys
 import os
+from config_loader import D_HOST, D_NAME, D_USER, D_PASS, DB_CONFIG, risorsa_percorso
 
-def risorsa_percorso(relative_path):
-    """ Ottiene il percorso assoluto della risorsa, funziona sia in sviluppo che dopo PyInstaller """
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
-
-config = configparser.ConfigParser()
-percorso_config = risorsa_percorso("config.ini")
-if os.path.exists(percorso_config):
-    config.read(percorso_config)
-    D_HOST = config["DATABASE"].get("host", "localhost")
-else:
-    D_HOST = "localhost"
-    
 class UfPreventivo(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -49,14 +33,13 @@ class UfPreventivo(QDialog):
         try:
             connessione = pyodbc.connect(
                 "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"  # Manterrà 'localhost' o l'IP che hai inserito nella variabile
-                "Database=configuratore;"
-                "Trusted_Connection=yes;"
-                "TrustServerCertificate=yes;"  # Fondamentale per evitare l'errore SSL visto in precedenza
+                f"Server={D_HOST};"
+                f"Database={D_NAME};"  # Ora è dinamico dal file ini
+                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
+                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
+                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
             )
-
             cursore = connessione.cursor()
-
             cursore.execute("SELECT id, ragione_sociale FROM configuratore.clienti ORDER BY ragione_sociale ASC")
             clienti_db = cursore.fetchall()
 
@@ -81,13 +64,13 @@ class UfPreventivo(QDialog):
             connessione = pyodbc.connect(
                 "Driver={ODBC Driver 18 for SQL Server};"
                 f"Server={D_HOST};"
-                "Database=configuratore;"
-                "Trusted_Connection=yes;"
-                "TrustServerCertificate=yes;"
+                f"Database={D_NAME};"  # Ora è dinamico dal file ini
+                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
+                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
+                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
             )
 
             cursore = connessione.cursor()
-
             cursore.execute("""
                 SELECT DISTINCT anno_preventivo 
                 FROM configuratore.preventivi 
@@ -124,13 +107,13 @@ class UfPreventivo(QDialog):
             connessione = pyodbc.connect(
                 "Driver={ODBC Driver 18 for SQL Server};"
                 f"Server={D_HOST};"
-                "Database=configuratore;"
-                "Trusted_Connection=yes;"
-                "TrustServerCertificate=yes;"
+                f"Database={D_NAME};"  # Ora è dinamico dal file ini
+                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
+                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
+                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
             )
 
             cursore = connessione.cursor()
-
             cursore.execute("""
                 SELECT id_preventivo, numero_preventivo 
                 FROM configuratore.preventivi 

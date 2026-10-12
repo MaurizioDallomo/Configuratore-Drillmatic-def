@@ -5,24 +5,7 @@ import pyodbc
 import configparser
 import os
 import sys
-
-config = configparser.ConfigParser()
-  
-def risorsa_percorso(relative_path):
-    """ Ottiene il percorso assoluto della risorsa, funziona sia in sviluppo che dopo PyInstaller """
-    try:
-        base_path = sys._MEIPASS 
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
-
-percorso_config = risorsa_percorso("config.ini")
-if os.path.exists(percorso_config):
-    config.read(percorso_config)
-    D_HOST = config["DATABASE"].get("host", "localhost")
-else:
-    D_HOST = "localhost"
+from config_loader import D_HOST, D_NAME, D_USER, D_PASS, DB_CONFIG, risorsa_percorso
 
 class ufOpzione(QDialog):
     def __init__(self, parent=None):
@@ -43,10 +26,11 @@ class ufOpzione(QDialog):
         try:
             connessione = pyodbc.connect(
                 "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"  # Manterrà 'localhost' o l'IP che hai inserito nella variabile
-                "Database=configuratore;"
-                "Trusted_Connection=yes;"
-                "TrustServerCertificate=yes;"  # Fondamentale per evitare l'errore SSL visto in precedenza
+                f"Server={D_HOST};"
+                f"Database={D_NAME};"  # Ora è dinamico dal file ini
+                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
+                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
+                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
             )
 
             cursore = connessione.cursor()
@@ -95,17 +79,18 @@ class ufOpzione(QDialog):
         try:
             connessione = pyodbc.connect(
                 "Driver={ODBC Driver 18 for SQL Server};"
-                f"Server={D_HOST};"  # Manterrà 'localhost' o l'IP che hai inserito nella variabile
-                "Database=configuratore;"
-                "Trusted_Connection=yes;"
-                "TrustServerCertificate=yes;"  # Fondamentale per evitare l'errore SSL visto in precedenza
+                f"Server={D_HOST};"
+                f"Database={D_NAME};"  # Ora è dinamico dal file ini
+                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
+                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
+                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
             )
+
             cursore = connessione.cursor()
 
-            if not codice_da_eliminare == "":
+            if not codice_da_eliminare != "":
                 cursore.execute("DELETE FROM configuratore.opzioni WHERE codice = ?", (codice_da_eliminare,))
-
-            connessione.commit() 
+                connessione.commit() 
 
             cursore.close()
             connessione.close()
@@ -140,19 +125,17 @@ class ufOpzione(QDialog):
             QMessageBox.warning(self, "Errore di compilazione", messaggio_errore)
             return
 
-        connessione = None
-        cursore = None
-
         try:
             connessione = pyodbc.connect(
                 "Driver={ODBC Driver 18 for SQL Server};"
                 f"Server={D_HOST};"
-                "Database=configuratore;"
-                "Trusted_Connection=yes;"
-                "TrustServerCertificate=yes;"
+                f"Database={D_NAME};"  # Ora è dinamico dal file ini
+                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
+                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
+                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
             )
 
-            cursore = connessione.cursor()
+            cursore = connesisone.cursor()
 
             if self.modalita_opzione == "NUOVO":
 
@@ -176,9 +159,10 @@ class ufOpzione(QDialog):
                 cursore.execute(query_opzione, valori_opzione)
 
             connessione.commit()
-                
-            QMessageBox.information(self, "Successo", "Opzione salvata")
+            cursore.close()
+            connessione.close()
 
+            QMessageBox.information(self, "Successo", "Opzione salvata")
             self.modalita_opzione = None
 
         except Exception as e:
@@ -187,12 +171,7 @@ class ufOpzione(QDialog):
             "Errore Caricamento Opzione",
             f"Impossibile caricare l'opzione:\n{e}"
         )
-        finally:
-            if cursore:
-                cursore.close()
-            if connessione:
-                connessione.close()
-        
+            
     def importa_opzione(self):
         self.nuova_opzione = OpzioneSpeciale(
             codice = self.ui.cb_opzioni_speciali.currentText(),
@@ -233,9 +212,10 @@ class ufOpzione(QDialog):
             connessione = pyodbc.connect(
                 "Driver={ODBC Driver 18 for SQL Server};"
                 f"Server={D_HOST};"
-                "Database=configuratore;"
-                "Trusted_Connection=yes;"
-                "TrustServerCertificate=yes;"
+                f"Database={D_NAME};"  # Ora è dinamico dal file ini
+                f"UID={D_USER};"       # Inserisce l'utente del file config.ini
+                f"PWD={D_PASS};"       # Inserisce la password del file config.ini
+                "TrustServerCertificate=yes;"  # Mantenuto per evitare l'errore SSL dell'ODBC 18
             )
 
             cursore = connessione.cursor()

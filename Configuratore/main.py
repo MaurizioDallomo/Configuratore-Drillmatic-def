@@ -5,7 +5,7 @@ import qdarktheme
 from gui.Configuratore import Configuratore
 import os
 from PySide6.QtGui import QIcon
-from gui.Configuratore import risorsa_percorso
+from config_loader import risorsa_percorso
 
 #######################################################################
 #if __name__ == "__main__":

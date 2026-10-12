@@ -14,31 +14,7 @@ import configparser
 import hashlib
 from archivi.archiviomandrini import ArchivioMandrini
 from archivi.archivioopzioni import ArchivioOpzioni
-
-def risorsa_percorso(relative_path):
-    """ Ottiene il percorso assoluto della risorsa, funziona sia in sviluppo che dopo PyInstaller """
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
-
-percorso_config = risorsa_percorso("config.ini")
-config = configparser.ConfigParser()
-if os.path.exists(percorso_config):
-    config.read(percorso_config)
-    D_HOST = config["DATABASE"].get("host", "localhost")
-else:
-    D_HOST = "localhost"    
-
-DB_CONFIG = (
-    "Driver={ODBC Driver 18 for SQL Server};"
-    f"Server={D_HOST};"
-    "Database=configuratore;"
-    "Trusted_Connection=yes;"
-    "TrustServerCertificate=yes;"
-)
+from config_loader import D_HOST, D_NAME, D_USER, D_PASS, DB_CONFIG, risorsa_percorso
 
 try:
     parametri = urllib.parse.quote_plus(DB_CONFIG)

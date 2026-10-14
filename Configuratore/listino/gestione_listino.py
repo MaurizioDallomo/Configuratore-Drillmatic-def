@@ -14,13 +14,23 @@ import configparser
 import hashlib
 from archivi.archiviomandrini import ArchivioMandrini
 from archivi.archivioopzioni import ArchivioOpzioni
-from config_loader import D_HOST, D_NAME, D_USER, D_PASS, DB_CONFIG, risorsa_percorso
+from config_loader import D_HOST, D_DRIVER, D_NAME, D_USER, D_PASS, DB_CONFIG, risorsa_percorso
 
 try:
     parametri = urllib.parse.quote_plus(DB_CONFIG)
     
     def connettore_diretto():
-        return pyodbc.connect(DB_CONFIG)
+        certificato = "TrustServerCertificate=yes;" if "18" in D_DRIVER else ""
+        
+        stringa_dinamica = (
+            f"Driver={{{D_DRIVER}}};"
+            f"Server={D_HOST};"
+            f"Database={D_NAME};"
+            f"UID={D_USER};"
+            f"PWD={D_PASS};"
+            f"{certificato}"
+        )
+        return pyodbc.connect(stringa_dinamica)
 
     db_pool = create_engine(
         "mssql+pyodbc://",

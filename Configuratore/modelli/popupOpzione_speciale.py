@@ -5,7 +5,7 @@ import pyodbc
 import configparser
 import os
 import sys
-from config_loader import D_HOST, D_NAME, D_USER, D_PASS, DB_CONFIG, risorsa_percorso
+from config_loader import D_HOST, D_DRIVER, D_NAME, D_USER, D_PASS, DB_CONFIG, risorsa_percorso
 
 class ufOpzione(QDialog):
     def __init__(self, parent=None):

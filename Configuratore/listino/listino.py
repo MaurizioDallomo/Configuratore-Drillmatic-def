@@ -9,7 +9,7 @@ import datetime
 import configparser
 import os
 import sys
-from config_loader import D_HOST, D_NAME, D_USER, D_PASS, DB_CONFIG, risorsa_percorso
+from config_loader import D_HOST, D_DRIVER, D_NAME, D_USER, D_PASS, DB_CONFIG, risorsa_percorso
 
 def _make_dict_cursor(connection, connection_record):
     def dict_row_factory(cursor, row):
@@ -21,14 +21,17 @@ try:
     parametri = urllib.parse.quote_plus(DB_CONFIG)
 
     def connettore_diretto():
-        stringa_aziendale = (
-            "Driver={ODBC Driver 11 for SQL Server};"
+        certificato = "TrustServerCertificate=yes;" if "18" in D_DRIVER else ""
+        
+        stringa_dinamica = (
+            f"Driver={{{D_DRIVER}}};"
             f"Server={D_HOST};"
             f"Database={D_NAME};"
             f"UID={D_USER};"
             f"PWD={D_PASS};"
+            f"{certificato}"
         )
-        return pyodbc.connect(stringa_aziendale)
+        return pyodbc.connect(stringa_dinamica)
 
     # Creiamo l'engine standard
     db_pool = create_engine(

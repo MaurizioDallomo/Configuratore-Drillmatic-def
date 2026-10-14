@@ -2240,7 +2240,7 @@ class Configuratore(QMainWindow):
             doc.build(story, onFirstPage=disegna_grafica_preventivo, onLaterPages=disegna_grafica_preventivo)
 
             QMessageBox.information(self, "Successo", "Preventivo PDF generato correttamente secondo le specifiche!")
-            self.ui.lb_preventivo.setText(f"PREVENTIVO {self.codice_preventivo_corrente}")
+            #self.ui.lb_preventivo.setText(f"PREVENTIVO {self.codice_preventivo_corrente}")
 
             self.reset_condizioni()
             self.ui.cbProdotto.setCurrentIndex(-1)
